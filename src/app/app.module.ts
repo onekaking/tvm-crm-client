@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
@@ -12,6 +13,9 @@ import { appRoutes } from './app.routing';
 import {
   MegaMenuModule,
   TreeTableModule,
+  DialogModule,
+  ButtonModule,
+  AutoCompleteModule
 } from 'primeng/primeng';
 
 import { TableModule } from 'primeng/table';
@@ -33,9 +37,13 @@ import { HttpClient } from '@angular/common/http';
     HttpClientModule,
     BrowserAnimationsModule,
     HttpModule,
+    FormsModule,
     MegaMenuModule,
     TreeTableModule,
     TableModule,
+    DialogModule,
+    ButtonModule,
+    AutoCompleteModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
