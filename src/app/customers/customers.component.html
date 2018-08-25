@@ -1,0 +1,17 @@
+Customers
+<p-treeTable [value]="customers">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Phone</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr>
+            <td>{{ rowData.code}}</td>
+            <td>{{ rowData.name}}</td>
+            <td>{{ rowData.phone}}</td>
+        </tr>
+    </ng-template>
+</p-treeTable>
