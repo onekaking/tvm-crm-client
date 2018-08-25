@@ -10,8 +10,11 @@ import { appRoutes } from './app.routing';
 
 // PrimeNG
 import {
-  MegaMenuModule, TreeTableModule
+  MegaMenuModule,
+  TreeTableModule,
 } from 'primeng/primeng';
+
+import { TableModule } from 'primeng/table';
 
 // Custom Component
 import { CustomersComponent } from './customers/customers.component';
@@ -32,6 +35,7 @@ import { HttpClient } from '@angular/common/http';
     HttpModule,
     MegaMenuModule,
     TreeTableModule,
+    TableModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only

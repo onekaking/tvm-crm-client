@@ -17,7 +17,10 @@ export class CustomersComponent {
     ngOnInit() {
       this.customersService.getCustomers().subscribe((data : Customer[]) => {
         console.log(data);
-        this.customers = data;
+        this.customers = [];
+        data.map(item => {
+          this.customers.push(item);
+        });
         console.log(this.customers);
       });
     }
