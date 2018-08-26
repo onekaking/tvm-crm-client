@@ -15,22 +15,29 @@ import {
   TreeTableModule,
   DialogModule,
   ButtonModule,
-  AutoCompleteModule
+  AutoCompleteModule,
+  SplitButtonModule,
+  CalendarModule,
+  TabViewModule,
+  ScrollPanelModule
 } from 'primeng/primeng';
 
 import { TableModule } from 'primeng/table';
 
 // Custom Component
-import { CustomersComponent } from './customers/customers.component';
+import { CustomerComponent } from './customer/customer.component';
 import { StudentsComponent } from './students/students.component';
-import { CustomersService } from './customers/customers.service';
-import { HttpClient } from '@angular/common/http';
+import { CustomerService } from './customer/customer.service';
+import { CustomerDetailComponent } from './customer/detail/customer-detail.component';
+import { CourseComponent } from './course/course.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CustomersComponent,
-    StudentsComponent
+    CustomerComponent,
+    StudentsComponent,
+    CustomerDetailComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
@@ -44,12 +51,16 @@ import { HttpClient } from '@angular/common/http';
     DialogModule,
     ButtonModule,
     AutoCompleteModule,
+    SplitButtonModule,
+    CalendarModule,
+    TabViewModule,
+    ScrollPanelModule,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  providers: [ CustomersService ],
+  providers: [ CustomerService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

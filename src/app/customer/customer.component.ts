@@ -1,21 +1,23 @@
 import { Component } from '@angular/core';
-import { CustomersService } from './customers.service';
+import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
 import { TreeNode } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-customers',
-	templateUrl: './customers.component.html',
-	styleUrls: ['./customers.component.scss']
+	templateUrl: './customer.component.html',
+	styleUrls: ['./customer.component.scss']
 })
-export class CustomersComponent {
+export class CustomerComponent {
 	customers: Customer[] = [];
 	isDialogAddCustomerVisible: boolean = false;
 	newCustomer: Customer = new Customer();
 	searchCustomerText: string = '';
 	resultCustomers: any[] = [];
+	isDialogPayMoneyVisible: boolean = false;
 
-	constructor(private customersService: CustomersService) {
+	constructor(private customerService: CustomerService, private router: Router) {
 
 	}
 
@@ -24,7 +26,7 @@ export class CustomersComponent {
 	}
 
 	loadCustomers() {
-		this.customersService.getCustomers().subscribe((data: Customer[]) => {
+		this.customerService.getCustomers().subscribe((data: Customer[]) => {
 			this.customers = [];
 			data.map(item => {
 				this.customers.push(item);
@@ -39,8 +41,7 @@ export class CustomersComponent {
 
 	createNewCustomer(isCreate) {
 		if (isCreate) {
-			this.customersService.postCustomer(this.newCustomer).subscribe(data => {
-				console.log(data);
+			this.customerService.postCustomer(this.newCustomer).subscribe(data => {
 				this.isDialogAddCustomerVisible = false;
 				this.loadCustomers();
 			});
@@ -50,9 +51,26 @@ export class CustomersComponent {
 	}
 
 	searchCustomer(event) {
-		this.customersService.findCustomers(this.searchCustomerText).subscribe((data: Customer[]) => {
+		this.customerService.findCustomers(this.searchCustomerText).subscribe((data: Customer[]) => {
 			this.resultCustomers = data;
 			console.log(data);
 		});
+	}
+
+	showDialogPayMoney() {
+		this.isDialogPayMoneyVisible = true;
+	}
+
+	payMoney(isPay) {
+		if (isPay) {
+
+		} else {
+			this.isDialogPayMoneyVisible = false;
+		}
+	}
+
+	selectSearchCustomer(obj) {
+		console.log(event);
+		this.router.navigate(['/customer', obj.id ]);
 	}
 }

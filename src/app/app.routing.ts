@@ -1,10 +1,14 @@
 import { Routes } from "@angular/router";
-import { CustomersComponent } from "./customers/customers.component";
+import { CustomerComponent } from "./customer/customer.component";
 import { StudentsComponent } from './students/students.component';
+import { CustomerDetailComponent } from "./customer/detail/customer-detail.component";
+import { CourseComponent } from "./course/course.component";
 
 export const appRoutes: Routes = [
-    { path: 'customers', component: CustomersComponent },
+    { path: 'customers', component: CustomerComponent },
+    { path: 'customer/:id', component: CustomerDetailComponent },
     { path: 'students', component: StudentsComponent },
+    { path: 'courses', component: CourseComponent },
     { path: '',
       redirectTo: '/customers',
       pathMatch: 'full'

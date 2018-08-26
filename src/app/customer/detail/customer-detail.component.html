@@ -1,0 +1,34 @@
+<form>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Họ và tên (*)</label>
+        <div class="col-sm-3">
+            <input disabled type="text" name="inputName" [(ngModel)]="customer.name" class="form-control" id="inputName">
+        </div>
+        <div class="col-sm-3">
+            <p-calendar dateFormat="dd/mm/yy" name="inputBirth" [(ngModel)]="customer.birth" [showIcon]="true" id="inputBirth"></p-calendar>
+        </div>
+        <div class="col-sm-3">
+            <input disabled type="text" name="inputPhone" [(ngModel)]="customer.phone" class="form-control" id="inputPhone">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="inputDescription">Mô tả</label>
+        <div class="col-sm-9">
+            <input type="text" name="inputDescription" [(ngModel)]="customer.description" class="form-control" id="inputDescription">
+        </div>
+    </div>
+</form>
+<p-tabView>
+    <p-tabPanel header="Tư vấn">
+        <p-scrollPanel [style]="{width: '100%', height: '200px'}">
+            <div *ngFor="let note of customer.notes" style="border-bottom: 1px dashed gray; margin-bottom: 10px;">
+                <div><b>{{ note.createdBy }}</b> at {{ note.createdAt | date }}</div>
+                <span>{{ note.content }}</span>
+            </div>
+        </p-scrollPanel>
+        <div class="ui-inputgroup mt-3">
+            <input [disabled]="isPostingNote" style="flex: 1 1 auto;" name="inputNote" [(ngModel)]="newNote" type="text" pInputText>
+            <button [disabled]="newNote.length === 0 || isPostingNote" (click)="createNewNoteForCustomer()" pButton type="button" label="Thêm"></button>
+        </div>
+    </p-tabPanel>
+</p-tabView>
