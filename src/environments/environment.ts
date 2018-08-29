@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://tvm-crm-api.herokuapp.com'
+  apiUrl: 'http://localhost:1337'
+  // apiUrl: 'https://tvm-crm-api.herokuapp.com'
 };

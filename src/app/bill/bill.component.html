@@ -3,7 +3,7 @@
         <form>
             <div class="form-group">
                 <label for="inputName">Họ và tên học viên (*)</label>
-                <input type="text" name="inputName" [(ngModel)]="bill.studentName" class="form-control" id="inputName" placeholder="Ex: Hoàng Công Khanh">
+                <input autofocus type="text" name="inputName" [(ngModel)]="bill.studentName" class="form-control" id="inputName" placeholder="Ex: Hoàng Công Khanh">
             </div>
             <div class="form-group">
                 <label for="inputSection">Lớp học</label>
@@ -11,10 +11,8 @@
             </div>
             <div class="form-group">
                 <label for="inputSection">Đóng theo tháng</label>
-                <p-dropdown [disabled]="isRelative" (onChange)="setupMonth()" name="inputMonth" autoDisplayFirst="true" [options]="months"
-                    [(ngModel)]="selectedMonth"></p-dropdown>
-                <input (input)="setupMonth()" *ngIf="selectedMonth === 0" placeholder="Nhập số tiền đặt cọc" pInputText name="inputBookingFee"
-                    [(ngModel)]="bookingFee">
+                <p-dropdown [disabled]="isRelative" (onChange)="setupMonth()" name="inputMonth" autoDisplayFirst="true" [options]="months" [(ngModel)]="selectedMonth"></p-dropdown>
+                <input (input)="setupMonth()" *ngIf="selectedMonth === 0" placeholder="Nhập số tiền đặt cọc" pInputText name="inputBookingFee" [(ngModel)]="bookingFee">
             </div>
             <div class="form-group">
                 <label for="inputSection">Người thu</label>
@@ -22,17 +20,14 @@
             </div>
             <div class="form-group">
                 <label for="inputBaloType">Balo</label>
-                <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBalo()" name="inputBaloType" [options]="baloTypes"
-                    [(ngModel)]="selectedBaloType"></p-dropdown>
+                <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBalo()" name="inputBaloType" [options]="baloTypes" [(ngModel)]="selectedBaloType"></p-dropdown>
             </div>
             <div class="form-group">
                 <label for="inputBookType">Sách</label>
-                <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBook()" name="inputBookType" [options]="bookTypes"
-                    [(ngModel)]="selectedBookType"></p-dropdown>
+                <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBook()" name="inputBookType" [options]="bookTypes" [(ngModel)]="selectedBookType"></p-dropdown>
             </div>
             <div class="form-group">
-                <p-checkbox [disabled]="isRelative" (onChange)="setupVoucher()" name="inputVoucher" binary="true" label="Có voucher giảm giá 500,000 đ"
-                    [(ngModel)]="isHaveVoucher"></p-checkbox>
+                <p-checkbox [disabled]="isRelative" (onChange)="setupVoucher()" name="inputVoucher" binary="true" label="Có voucher giảm giá 500,000 đ" [(ngModel)]="isHaveVoucher"></p-checkbox>
             </div>
             <div class="form-group">
                 <p-checkbox (onChange)="calculteRelative()" name="inputRelative" binary="true" label="Miễn phí người thân lần đầu" [(ngModel)]="isRelative"></p-checkbox>
@@ -148,8 +143,7 @@
                     <p>NGƯỜI NỘP</p>
                 </div>
                 <div style="flex: 0 0 50%; text-align: center;">
-                    <p style="text-align: center;  margin-bottom: 10px;">Ngày {{ currentDate | date:'dd' }} tháng {{ currentDate
-                        | date:'MM' }} năm {{ currentDate | date:'yyyy' }} </p>
+                    <p style="text-align: center;  margin-bottom: 10px;">Ngày {{ currentDate | date:'dd' }} tháng {{ currentDate | date:'MM' }} năm {{ currentDate | date:'yyyy' }} </p>
                     <P style="margin-bottom: 60px;">NGƯỜI THU</P>
                     <div>{{ selectedStaff.name }}</div>
                 </div>

@@ -1,0 +1,28 @@
+body .ui-tabview .ui-tabview-panels {
+    padding: 0;
+}
+
+.list-comments {
+    padding: 10px;
+}
+
+.comment {
+    border: 1px solid #dadada;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+.comment-action {
+    border-top: 1px solid #dadada;
+    display: flex;
+    padding: 10px;
+    button {
+        margin-left: 10px;
+    }
+    input[type='text'] {
+        padding: 15px;
+        background: #dadada;
+        border-color: #bababa !important;
+    }
+}

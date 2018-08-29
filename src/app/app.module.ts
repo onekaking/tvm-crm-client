@@ -11,18 +11,18 @@ import { appRoutes } from './app.routing';
 
 // PrimeNG
 import {
-  MegaMenuModule,
-  TreeTableModule,
-  DialogModule,
-  ButtonModule,
-  AutoCompleteModule,
-  SplitButtonModule,
-  CalendarModule,
-  TabViewModule,
-  ScrollPanelModule,
-  InputTextModule,
-  DropdownModule,
-  CheckboxModule
+	MegaMenuModule,
+	TreeTableModule,
+	DialogModule,
+	ButtonModule,
+	AutoCompleteModule,
+	SplitButtonModule,
+	CalendarModule,
+	TabViewModule,
+	ScrollPanelModule,
+	InputTextModule,
+	DropdownModule,
+	CheckboxModule
 } from 'primeng/primeng';
 
 import { TableModule } from 'primeng/table';
@@ -34,41 +34,42 @@ import { CustomerService } from './customer/customer.service';
 import { CustomerDetailComponent } from './customer/detail/customer-detail.component';
 import { CourseComponent } from './course/course.component';
 import { BillComponent } from './bill/bill.component';
+import { CourseService } from './course/course.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CustomerComponent,
-    StudentsComponent,
-    CustomerDetailComponent,
-    CourseComponent,
-    BillComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    HttpModule,
-    FormsModule,
-    MegaMenuModule,
-    TreeTableModule,
-    TableModule,
-    DialogModule,
-    ButtonModule,
-    AutoCompleteModule,
-    SplitButtonModule,
-    CalendarModule,
-    TabViewModule,
-    ScrollPanelModule,
-    InputTextModule,
-    DropdownModule,
-    CheckboxModule,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: false } // <-- debugging purposes only
-    )
-  ],
-  providers: [ CustomerService ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		CustomerComponent,
+		StudentsComponent,
+		CustomerDetailComponent,
+		CourseComponent,
+		BillComponent
+	],
+	imports: [
+		BrowserModule,
+		HttpClientModule,
+		BrowserAnimationsModule,
+		HttpModule,
+		FormsModule,
+		MegaMenuModule,
+		TreeTableModule,
+		TableModule,
+		DialogModule,
+		ButtonModule,
+		AutoCompleteModule,
+		SplitButtonModule,
+		CalendarModule,
+		TabViewModule,
+		ScrollPanelModule,
+		InputTextModule,
+		DropdownModule,
+		CheckboxModule,
+		RouterModule.forRoot(
+			appRoutes,
+			{ enableTracing: false } // <-- debugging purposes only
+		)
+	],
+	providers: [CustomerService, CourseService],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }
