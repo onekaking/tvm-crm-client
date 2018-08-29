@@ -1,6 +1,6 @@
 <p-table [columns]="cols" [value]="courses">
     <ng-template pTemplate="caption">
-        <button pButton icon="pi pi-plus"></button>
+        <button pButton icon="pi pi-plus" (click)="showDialogAddCourse()"></button>
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
@@ -19,3 +19,34 @@
         </tr>
     </ng-template>
 </p-table>
+
+<p-dialog header="Khóa học mới" [(visible)]="isDialogAddCustomerVisible" [modal]="true" [responsive]="true" [width]="1000"
+    [minWidth]="200" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <form>
+        <div class="form-group">
+            <label for="inputName">Họ và tên (*)</label>
+            <input type="text" name="inputName" [(ngModel)]="newCustomer.name" class="form-control" id="inputName" placeholder="Ex: Hoàng Công Khanh">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputBirth">Ngày sinh (*)</label>
+                <div>
+                    <p-calendar dateFormat="dd/mm/yy" name="inputBirth" [(ngModel)]="newCustomer.birth" [showIcon]="true" id="inputBirth" placeholder="Ex: 21/10/2010"></p-calendar>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPhone">Số điện thoại</label>
+                <input type="text" name="inputPhone" [(ngModel)]="newCustomer.phone" class="form-control" id="inputPhone" placeholder="Ex: 0909 999 999">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputDescription">Mô tả</label>
+            <input type="text" name="inputDescription" [(ngModel)]="newCustomer.description" class="form-control" id="inputDescription"
+                placeholder="Ex: Đợi lịch học trên trường...">
+        </div>
+    </form>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="createNewCustomer(true)" label="Tạo mới"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="createNewCustomer(false)" label="Hủy bỏ" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>

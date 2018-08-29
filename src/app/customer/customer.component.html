@@ -1,4 +1,4 @@
-<p-table [value]="customers">
+<p-table [loading]="loading" [paginator]="true" [rows]="10" [value]="customers">
     <ng-template pTemplate="caption">
         <div class="row">
             <div class="col-6">
@@ -7,7 +7,7 @@
                 </p-autoComplete>
             </div>
             <div class="col-6">
-                <button style="text-align: right;" pButton icon="pi pi-plus" (click)="showDialogAddCustomer()"></button>
+                <button pButton icon="pi pi-plus" (click)="showDialogAddCustomer()"></button>
             </div>
         </div>
     </ng-template>
@@ -17,7 +17,7 @@
             <th>Họ và tên</th>
             <th style="width: 130px;text-align: center">Điện thoại</th>
             <th>Mô tả</th>
-            <th>Ghi chú</th>
+            <th>Tư vấn</th>
             <th style="width: 140px;"></th>
         </tr>
     </ng-template>
@@ -27,8 +27,8 @@
             <td>
                 <a routerLink="/customer/{{ customer.id }}">{{ customer.name }}</a>
             </td>
-            <td style="text-align:center;">{{ customer.phone }}</td>
-            <td>{{ customer.description }}</td>
+            <td style="text-align:center;"><span>{{ customer.phone }}</span></td>
+            <td><span>{{ customer.description }}</span></td>
             <td>
                 <span *ngIf="customer.notes.length > 0">
                     {{ customer.notes[customer.notes.length - 1].content }} ({{ customer.notes.length }})
@@ -79,7 +79,7 @@
     [minY]="70" [maximizable]="true" [baseZIndex]="10000">
     <form>
         <div class="form-group">
-            <label for="inputName">Name (*)</label>
+            <label for="inputName">Tên học viên (*)</label>
             <input type="text" name="inputName" [(ngModel)]="newCustomer.name" class="form-control" id="inputName" placeholder="Enter name">
         </div>
         <div class="form-group">

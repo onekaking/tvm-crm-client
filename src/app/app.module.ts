@@ -19,7 +19,10 @@ import {
   SplitButtonModule,
   CalendarModule,
   TabViewModule,
-  ScrollPanelModule
+  ScrollPanelModule,
+  InputTextModule,
+  DropdownModule,
+  CheckboxModule
 } from 'primeng/primeng';
 
 import { TableModule } from 'primeng/table';
@@ -30,6 +33,7 @@ import { StudentsComponent } from './students/students.component';
 import { CustomerService } from './customer/customer.service';
 import { CustomerDetailComponent } from './customer/detail/customer-detail.component';
 import { CourseComponent } from './course/course.component';
+import { BillComponent } from './bill/bill.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,8 @@ import { CourseComponent } from './course/course.component';
     CustomerComponent,
     StudentsComponent,
     CustomerDetailComponent,
-    CourseComponent
+    CourseComponent,
+    BillComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +60,9 @@ import { CourseComponent } from './course/course.component';
     CalendarModule,
     TabViewModule,
     ScrollPanelModule,
+    InputTextModule,
+    DropdownModule,
+    CheckboxModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
