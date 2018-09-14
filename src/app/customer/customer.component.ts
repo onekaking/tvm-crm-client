@@ -75,7 +75,7 @@ export class CustomerComponent {
 	}
 
 	selectSearchCustomer(obj) {
-		this.router.navigate(['/customer', obj.id ]);
+		this.router.navigate(['customer', obj.id ]);
 	}
 
 }

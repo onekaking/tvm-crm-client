@@ -91,10 +91,10 @@ export class BillComponent {
         this.selectedMonth = this.months[0].value;
 
         this.staffs = [{
-            label: 'Vương Mỹ Nhi',
+            label: 'Vương Thị Mỹ Nhi',
             value: {
                 id: 1,
-                name: 'Vương Mỹ Nhi'
+                name: 'Vương Thị Mỹ Nhi'
             }
         }, {
             label: 'Lâm Sơn Hùng',
@@ -107,6 +107,12 @@ export class BillComponent {
             value: {
                 id: 3,
                 name: 'Đinh Ngọc Hà'
+            }
+        }, {
+            label: 'Trần Thị Nhung',
+            value: {
+                id: 4,
+                name: 'Trần Thị Nhung'
             }
         }];
         this.selectedStaff = this.staffs[0].value;

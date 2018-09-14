@@ -11,7 +11,7 @@ export const appRoutes: Routes = [
     { path: 'courses', component: CourseComponent },
     { path: 'bill', component: BillComponent },
     { path: '',
-      redirectTo: '/customers',
+      redirectTo: 'customers',
       pathMatch: 'full'
     }
   ];
