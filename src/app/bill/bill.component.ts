@@ -11,17 +11,16 @@ import { SelectItem } from 'primeng/components/common/api';
 export class BillComponent {
     bill: Bill = new Bill();
     currentDate: Date = new Date();
+    rawSections: SelectItem[] = [];
     sections: SelectItem[] = [];
     selectedSection: any;
+    isDisabledSection: boolean = false;
 
     months: SelectItem[] = [];
     selectedMonth: any;
 
     staffs: SelectItem[] = [];
     selectedStaff: any;
-
-    isGiftBalo: boolean = false;
-    isGiftBook: boolean = false;
 
     selectedValues: string[] = [];
     studentFee: number = 0;
@@ -52,25 +51,89 @@ export class BillComponent {
     bookTypes: SelectItem[] = [];
     selectedBookType: any;
 
+    programs: SelectItem[] = [];
+    selectedProgram: any;
+
     constructor() {
-        this.sections = [{
+        this.initSetup();
+    }
+
+    initSetup() {
+        this.isHaveBrother = false;
+        this.isHaveVoucher = false;
+        this.isRelative = false;
+        this.selectedSection = null;
+
+        this.programs = [{
+            label: 'Super Kids 1',
+            value: 'Super Kids 1'
+        }, {
+            label: 'Pre Starters',
+            value: 'Pre Starters'
+        }, {
+            label: 'Starters 2',
+            value: 'Starters 2'
+        }, {
+            label: 'Starters 3',
+            value: 'Starters 3'
+        }, {
+            label: 'Movers 1',
+            value: 'Movers 1'
+        }, {
+            label: 'Movers 2',
+            value: 'Movers 2'
+        }];
+        this.selectedProgram = this.programs[0].value;
+
+        this.rawSections = [{
             label: 'Super Kid 1 / SUP1-2T1-1',
-            value: 'SUP1-2T1-1'
+            value: {
+                name: 'SUP1-2T1-1',
+                program: 'Super Kids 1'
+            }
         }, {
-            label: 'Pre Staters / PRE-3T1-2',
-            value: 'PRE-3T1-2'
+            label: 'Pre Starters / PRE-3T1-2',
+            value: {
+                name: 'PRE-3T1-2',
+                program: 'Pre Starters'
+            }
         }, {
-            label: 'Pre Staters / PRE-7S1-5',
-            value: 'PRE-7S1-5'
+            label: 'Pre Starters / PRE-7S1-5',
+            value: {
+                name: 'PRE-7S1-5',
+                program: 'Pre Starters'
+            }
         }, {
-            label: 'Staters 2 / STA2-2T2-3',
-            value: 'STA2-2T2-3'
+            label: 'Pre Starters / PRE-3T1-8',
+            value: {
+                name: 'PRE-3T1-8',
+                program: 'Pre Starters'
+            }
+        }, {
+            label: 'Starters 2 / STA2-2T2-3',
+            value: {
+                name: 'STA2-2T2-3',
+                program: 'Starters 2'
+            }
         }, {
             label: 'Movers 1 / MOV1-7S1-6',
-            value: 'MOV1-7S1-6'
+            value: {
+                name: 'MOV1-7S1-6',
+                program: 'Movers 1'
+            }
+        }, {
+            label: 'Movers 1 / MOV1-7C1-9',
+            value: {
+                name: 'MOV1-7C1-9',
+                program: 'Movers 1'
+            }
+        }, {
+            label: 'Pre Starters / PRE-2T1-10',
+            value: {
+                name: 'PRE-2T1-10',
+                program: 'Pre Starters'
+            }
         }];
-
-        this.selectedSection = this.sections[0].value;
 
         this.months = [{
             label: '1 tháng',
@@ -95,18 +158,6 @@ export class BillComponent {
             value: {
                 id: 1,
                 name: 'Vương Thị Mỹ Nhi'
-            }
-        }, {
-            label: 'Lâm Sơn Hùng',
-            value: {
-                id: 2,
-                name: 'Lâm Sơn Hùng'
-            }
-        }, {
-            label: 'Đinh Ngọc Hà',
-            value: {
-                id: 3,
-                name: 'Đinh Ngọc Hà'
             }
         }, {
             label: 'Trần Thị Nhung',
@@ -141,7 +192,7 @@ export class BillComponent {
         }];
         this.selectedBookType = this.bookTypes[0].value;
 
-        this.setupSection();
+        this.setupProgram();
         this.setupMonth();
     }
 
@@ -193,7 +244,7 @@ export class BillComponent {
     setupMonth() {
         if (this.selectedMonth === 0 ) { // Booking
             this.selectedBaloType = 0; // Khong Mua
-            this.selectedBookType = 0; // Khong Mua    
+            this.selectedBookType = 0; // Khong Mua
             this.realPay = this.bookingFee;
         } else if (this.selectedMonth === 1) {
             this.selectedBaloType = 1; // Mua
@@ -219,8 +270,8 @@ export class BillComponent {
         this.calculate();
     }
 
-    setupSection() {
-        if (this.selectedSection === 'SUP1-2T1-1') {
+    setupProgram() {
+        if (this.selectedProgram === 'Super Kids 1') {
             this.books = [{
                 name: 'Hooray Student Book A1',
                 price: 100000,
@@ -230,54 +281,93 @@ export class BillComponent {
                 price: 90000,
                 total: 90000
             }];
-        } else if (this.selectedSection === 'PRE-3T1-2' || this.selectedSection === 'PRE-7S1-5') {
+        } else if (this.selectedProgram === 'Super Kids 2') {
+            this.books = [{
+                name: 'Hooray Student Book A3',
+                price: 100000,
+                total: 100000
+            }, {
+                name: 'Hooray Science & Math & Fine Motor A3',
+                price: 90000,
+                total: 90000
+            }];
+        } else if (this.selectedProgram === 'Super Kids 3') {
+            this.books = [{
+                name: 'Hooray Student Book B2',
+                price: 100000,
+                total: 100000
+            }, {
+                name: 'Hooray Science & Math & Fine Motor B2',
+                price: 90000,
+                total: 90000
+            }];
+        } else if (this.selectedProgram === 'Pre Starters') {
             this.books = [{
                 name: 'ISS Student & Workbook 1A',
                 price: 120000,
                 total: 120000
             }];
-        } else if (this.selectedSection === 'MOV1-7S1-6') {
+        } else if (this.selectedProgram === 'Starters 2') {
+            this.books = [{
+                name: 'ISS Student & Workbook 2A',
+                price: 170000,
+                total: 170000
+            }];
+        } else if (this.selectedProgram === 'Starters 3') {
+            this.books = [{
+                name: 'ISS Student & Workbook 3A',
+                price: 170000,
+                total: 170000
+            }];
+        } else if (this.selectedProgram === 'Movers 1') {
             this.books = [{
                 name: 'ISS Student & Workbook 4A',
                 price: 170000,
                 total: 170000
             }];
-        } else if (this.selectedSection === 'STA2-2T2-3') {
+        } else if (this.selectedProgram === 'Movers 2') {
             this.books = [{
-                name: 'ISS Student & Workbook 2A',
+                name: 'ISS Student & Workbook 5A',
                 price: 170000,
                 total: 170000
             }];
         }
         this.setupBalo();
         this.setupBook();
-        // this.calculate();
+
+        this.sections = this.rawSections.filter(item => item.value.program === this.selectedProgram );
+        this.selectedSection = null;
+        if (this.sections.length === 0) {
+            this.isDisabledSection = true;
+        } else {
+            this.isDisabledSection = false;
+        }
     }
 
     calculate() {
-        if (this.selectedSection === 'SUP1-2T1-1') {
-            var temp = 1300000;
+        if (this.selectedProgram === 'Super Kids 1') {
+            let temp = 1300000;
             if (this.selectedMonth === 1) {
-                temp = temp * 0.8;
+                temp = temp;
             } else if (this.selectedMonth === 3) {
-                temp = temp * 3 * 0.9 * 0.8;
+                temp = temp * 3 * 0.9;
             } else if (this.selectedMonth === 6) {
-                temp = temp * 6 * 0.8 * 0.8;
+                temp = temp * 6 * 0.8;
             } else if (this.selectedMonth === 12) {
-                temp = temp * 12 * 0.7 * 0.8;
+                temp = temp * 12 * 0.7;
             }
             if (this.isHaveBrother) {
                 temp = temp * 0.95;
             }
             this.studentFee = temp;
         } else {
-            var temp = 1200000;
+            let temp = 1200000;
             if (this.selectedMonth === 1) {
-                temp = temp * 0.8;
+                temp = temp;
             } else if (this.selectedMonth === 3) {
-                temp = temp * 3 * 0.9 * 0.8;
+                temp = temp * 3 * 0.9;
             } else if (this.selectedMonth === 6) {
-                temp = temp * 6 * 0.8 * 0.8;
+                temp = temp * 6 * 0.8;
             } else if (this.selectedMonth === 12) {
                 temp = 600000 * 12;
             }
@@ -296,13 +386,18 @@ export class BillComponent {
         } else {
             this.totalStudentFee = this.studentFee;
         }
-        console.log(this.totalStudentFee, this.totalBaloFee, this.totalBookFee, this.voucherFee, this.bookingFee);
-        this.totalFee = (this.totalStudentFee + this.totalBaloFee + this.totalBookFee + this.voucherFee + parseFloat(this.bookingFee.toString()));
+        this.totalFee = (this.totalStudentFee + this.totalBaloFee + this.totalBookFee + this.voucherFee
+                                                + parseFloat(this.bookingFee.toString()));
         this.remaining = this.totalFee - this.realPay;
     }
 
     getIndex() {
         return ++this.index;
+    }
+
+    reset() {
+        this.initSetup();
+        this.setupProgram();
     }
 
     print() {

@@ -3,11 +3,15 @@
         <form>
             <div class="form-group">
                 <label for="inputName">Họ và tên học viên (*)</label>
-                <input autofocus type="text" name="inputName" [(ngModel)]="bill.studentName" class="form-control" id="inputName" placeholder="Ex: Hoàng Công Khanh">
+                <input autofocus type="text" name="inputName" [(ngModel)]="bill.studentName" class="form-control" id="inputName">
+            </div>
+            <div class="form-group">
+                <label for="inputProgram">Khóa học</label>
+                <p-dropdown (onChange)="setupProgram()" name="inputProgram" autoDisplayFirst="true" [options]="programs" [(ngModel)]="selectedProgram"></p-dropdown>
             </div>
             <div class="form-group">
                 <label for="inputSection">Lớp học</label>
-                <p-dropdown (onChange)="setupSection()" name="inputSection" autoDisplayFirst="true" [options]="sections" [(ngModel)]="selectedSection"></p-dropdown>
+                <p-dropdown [disabled]="isDisabledSection" name="inputSection" placeholder="Chọn lớp" [options]="sections" [(ngModel)]="selectedSection" [showClear]="true"></p-dropdown>
             </div>
             <div class="form-group">
                 <label for="inputSection">Đóng theo tháng</label>
@@ -27,7 +31,7 @@
                 <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBook()" name="inputBookType" [options]="bookTypes" [(ngModel)]="selectedBookType"></p-dropdown>
             </div>
             <div class="form-group">
-                <p-checkbox [disabled]="isRelative" (onChange)="setupVoucher()" name="inputVoucher" binary="true" label="Có voucher giảm giá 500,000 đ" [(ngModel)]="isHaveVoucher"></p-checkbox>
+                <p-checkbox disabled (onChange)="setupVoucher()" name="inputVoucher" binary="true" label="Có voucher giảm giá 500,000 đ" [(ngModel)]="isHaveVoucher"></p-checkbox>
             </div>
             <div class="form-group">
                 <p-checkbox (onChange)="calculteRelative()" name="inputRelative" binary="true" label="Miễn phí người thân lần đầu" [(ngModel)]="isRelative"></p-checkbox>
@@ -40,6 +44,7 @@
                 <input [disabled]="selectedMonth === 0" (input)="calculate()" type="text" name="inputPay" [(ngModel)]="realPay" class="form-control" id="inputPay">
             </div>
             <button [disabled]="bill.studentName.length === 0" pButton (click)="print()" label="In phiếu"></button>
+            <button pButton (click)="reset()" label="Reset"></button>
         </form>
     </div>
     <div class="col-7" id="print-section">
@@ -61,19 +66,23 @@
                     <td style="border: 0;text-align: left; padding-left: 10px;"> {{ bill.studentName }}</td>
                 </tr>
                 <tr>
+                    <td style="border: 0; padding-left: 0;width: 150px; text-align: left;">Khóa học: </td>
+                    <td style="border: 0;text-align: left; padding-left: 10px;">{{ selectedProgram }}</td>
+                </tr>
+                <tr>
                     <td style="border: 0; padding-left: 0;width: 150px; text-align: left;">Lớp học: </td>
-                    <td style="border: 0;text-align: left; padding-left: 10px;">{{ selectedSection }}</td>
+                    <td style="border: 0;text-align: left; padding-left: 10px;">{{ selectedSection ? selectedSection.name : '' }}</td>
                 </tr>
             </table>
             <p>Nội dung đóng:</p>
             <table style="width:100%;margin-top: 15px;" border="0">
                 <thead>
                     <tr>
-                        <th style="text-align:center">STT</th>
+                        <th style="text-align:center; width: 50px;">STT</th>
                         <th style="text-align:center">Dịch vụ</th>
-                        <th style="text-align:center; width: 100px;">Đơn giá</th>
+                        <th style="text-align:center; width: 130px;">Đơn giá</th>
                         <th style="text-align:center; width: 50px;">SL</th>
-                        <th style="text-align:center; width: 100px;">Thành tiền</th>
+                        <th style="text-align:center; width: 130px;">Thành tiền</th>
                     </tr>
                 </thead>
                 <tbody>
