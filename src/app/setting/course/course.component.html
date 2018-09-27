@@ -1,7 +1,10 @@
-<p-table [loading]="isLoading" [paginator]="true" [rows]="10" [value]="courses">
-    <ng-template pTemplate="caption">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
+    <h1 class="h2">Khóa học</h1>
+    <div>
         <button pButton icon="pi pi-plus" (click)="showDialogAddCourse()"></button>
-    </ng-template>
+    </div>
+</div>
+<p-table [loading]="isLoading" [paginator]="true" [rows]="10" [value]="courses">
     <ng-template pTemplate="header">
         <tr>
             <th>#</th>
@@ -20,15 +23,16 @@
     </ng-template>
 </p-table>
 
-<p-dialog header="Khóa học mới" [(visible)]="isDialogAddCourseVisible" [modal]="true" [responsive]="true" [width]="1000" [minWidth]="200" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+<p-dialog header="Khóa học mới" [(visible)]="isDialogAddCourseVisible" [modal]="true" [responsive]="true" [width]="1000"
+    [minWidth]="200" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
     <form>
         <div class="form-group">
             <label for="inputName">Tên khóa học mới (*)</label>
-            <input type="text" name="inputName" [(ngModel)]="newCourse.name" class="form-control" id="inputName" placeholder="">
+            <input type="text" name="inputName" [(ngModel)]="newCourse.name" class="form-control" id="inputName">
         </div>
         <div class="form-group">
             <label for="inputDescription">Mô tả</label>
-            <input type="text" name="inputDescription" [(ngModel)]="newCourse.description" class="form-control" id="inputDescription" placeholder="">
+            <input type="text" name="inputDescription" [(ngModel)]="newCourse.description" class="form-control" id="inputDescription">
         </div>
     </form>
     <p-footer>

@@ -1,74 +1,91 @@
-<p-table [loading]="loading" [paginator]="true" [rows]="10" [value]="customers">
-    <ng-template pTemplate="caption">
-        <div class="row">
-            <div class="col-6">
-                <p-autoComplete style="text-align: left; width: 100%;" placeholder="Tìm học viên" [style]="{'width':'100%'}" [(ngModel)]="searchCustomerText" field="name" [suggestions]="resultCustomers"
-                    (completeMethod)="searchCustomer($event)" (onSelect)="selectSearchCustomer($event)">
-                </p-autoComplete>
-            </div>
-            <div class="col-6">
-                <button pButton icon="pi pi-plus" (click)="showDialogAddCustomer()"></button>
-            </div>
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
+            <h1 class="h2">Khách hàng</h1>
+            <p-autoComplete placeholder="Tìm học viên" [style]="{'width':'100%'}" [(ngModel)]="searchCustomerText" field="name" [suggestions]="resultCustomers"
+                (completeMethod)="searchCustomer($event)" (onSelect)="selectSearchCustomer($event)">
+            </p-autoComplete>
+            <button alt="Thêm khách hàng" (click)="showDialogAddCustomer()" pButton icon="fa fa-plus"></button>
         </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width: 40px;text-align: center;">#</th>
-            <th>Họ và tên</th>
-            <th style="width: 130px;text-align: center">Điện thoại</th>
-            <th>Mô tả</th>
-            <th>Tư vấn</th>
-            <th style="width: 140px;"></th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-customer let-i="rowIndex">
-        <tr>
-            <td style="text-align:center;">{{ i + 1 }}</td>
-            <td>
-                <a routerLink="/customer/{{ customer.id }}">{{ customer.name }}</a>
-            </td>
-            <td style="text-align:center;"><span>{{ customer.phone }}</span></td>
-            <td><span>{{ customer.description }}</span></td>
-            <td>
-                <span *ngIf="customer.notes.length > 0">
-                    {{ customer.notes[customer.notes.length - 1].content }} ({{ customer.notes.length }})
-                </span>
-                <span *ngIf="customer.notes.length === 0">
-                    <i>None</i>
-                </span>
-            </td>
-            <td>
-                <button pButton (click)="showDialogPayMoney()" label="Đóng tiền" iconPos="right" icon="pi pi-angle-right"></button>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+        <p-table [loading]="loading" [paginator]="true" [rows]="10" [value]="customers">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 40px;text-align: center;">#</th>
+                    <th>Họ và tên</th>
+                    <th style="width: 130px;text-align: center">Điện thoại</th>
+                    <th>Mô tả</th>
+                    <th>Tư vấn</th>
+                    <th style="width: 140px;"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer let-i="rowIndex">
+                <tr>
+                    <td style="text-align:center;">{{ i + 1 }}</td>
+                    <td>
+                        <a routerLink="/customer/{{ customer.id }}">{{ customer.name }}</a>
+                    </td>
+                    <td style="text-align:center;"><span>{{ customer.phone }}</span></td>
+                    <td><span>{{ customer.description }}</span></td>
+                    <td>
+                        <span *ngIf="customer.notes.length > 0">
+                            {{ customer.notes[customer.notes.length - 1].content }} ({{ customer.notes.length }})
+                        </span>
+                        <span *ngIf="customer.notes.length === 0">
+                            <i>None</i>
+                        </span>
+                    </td>
+                    <td>
+                        <button pButton (click)="showDialogPayMoney()" label="Đóng tiền" iconPos="right" icon="pi pi-angle-right"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
 
 <p-dialog header="Khách hàng mới" [(visible)]="isDialogAddCustomerVisible" [modal]="true" [responsive]="true" [width]="1000"
     [minWidth]="200" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
-    <form>
-        <div class="form-group">
-            <label for="inputName">Họ và tên (*)</label>
-            <input type="text" name="inputName" [(ngModel)]="newCustomer.name" class="form-control" id="inputName" placeholder="Ex: Hoàng Công Khanh">
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputBirth">Ngày sinh (*)</label>
-                <div>
-                    <p-calendar dateFormat="dd/mm/yy" name="inputBirth" [(ngModel)]="newCustomer.birth" [showIcon]="true" id="inputBirth" placeholder="Ex: 21/10/2010"></p-calendar>
+    <div class="container-fluid">
+        <form>
+            <div class="form-group row">
+                <label for="inputName" class="col-sm-2 col-form-label">Họ và tên (*)</label>
+                <div class="col-sm-10">
+                    <input type="text" name="inputName" [(ngModel)]="newCustomer.name" class="form-control" id="inputName" placeholder="Ex: Hoàng Công Khanh">
                 </div>
             </div>
-            <div class="form-group col-md-6">
-                <label for="inputPhone">Số điện thoại</label>
-                <input type="text" name="inputPhone" [(ngModel)]="newCustomer.phone" class="form-control" id="inputPhone" placeholder="Ex: 0909 999 999">
+            <div class="form-group row">
+                <label for="inputBirth" class="col-sm-2 col-form-label">Ngày sinh (*)</label>
+                <div class="col-sm-10">
+                    <p-calendar dateFormat="dd/mm/yy" name="inputBirth" [(ngModel)]="newCustomer.birthday" [showIcon]="true" id="inputBirth"
+                        placeholder="Ex: 21/10/2010"></p-calendar>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="inputDescription">Mô tả</label>
-            <input type="text" name="inputDescription" [(ngModel)]="newCustomer.description" class="form-control" id="inputDescription"
-                placeholder="Ex: Đợi lịch học trên trường...">
-        </div>
-    </form>
+            <div class="form-group row">
+                <label for="inputParentName" class="col-sm-2 col-form-label">Tên phụ huynh</label>
+                <div class="col-sm-10">
+                    <input type="text" name="inputParentName" [(ngModel)]="newCustomer.parentName" class="form-control" id="inputParentName">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPhone" class="col-sm-2 col-form-label">Số điện thoại</label>
+                <div class="col-sm-10">
+                    <input type="text" name="inputPhone" [(ngModel)]="newCustomer.phone" class="form-control" id="inputPhone" placeholder="Ex: 0909 999 999">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputAddress" class="col-sm-2 col-form-label">Địa chỉ</label>
+                <div class="col-sm-10">
+                    <input type="text" name="inputAddress" [(ngModel)]="newCustomer.address" class="form-control" id="inputAddress">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputDescription" class="col-sm-2 col-form-label">Mô tả</label>
+                <div class="col-sm-10">
+                    <textarea name="inputDescription" [(ngModel)]="newCustomer.description" class="form-control" id="inputDescription" placeholder="Ex: Đợi lịch học trên trường..."></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
     <p-footer>
         <button type="button" pButton icon="pi pi-check" (click)="createNewCustomer(true)" label="Tạo mới"></button>
         <button type="button" pButton icon="pi pi-close" (click)="createNewCustomer(false)" label="Hủy bỏ" class="ui-button-secondary"></button>

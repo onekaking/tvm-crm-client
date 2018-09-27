@@ -1,162 +1,242 @@
-<div class="row">
-    <div class="col-5" style="border-right: 1px solid gray;">
-        <form>
-            <div class="form-group">
-                <label for="inputName">Họ và tên học viên (*)</label>
-                <input autofocus type="text" name="inputName" [(ngModel)]="bill.studentName" class="form-control" id="inputName">
-            </div>
-            <div class="form-group">
-                <label for="inputProgram">Khóa học</label>
-                <p-dropdown (onChange)="setupProgram()" name="inputProgram" autoDisplayFirst="true" [options]="programs" [(ngModel)]="selectedProgram"></p-dropdown>
-            </div>
-            <div class="form-group">
-                <label for="inputSection">Lớp học</label>
-                <p-dropdown [disabled]="isDisabledSection" name="inputSection" placeholder="Chọn lớp" [options]="sections" [(ngModel)]="selectedSection" [showClear]="true"></p-dropdown>
-            </div>
-            <div class="form-group">
-                <label for="inputSection">Đóng theo tháng</label>
-                <p-dropdown [disabled]="isRelative" (onChange)="setupMonth()" name="inputMonth" autoDisplayFirst="true" [options]="months" [(ngModel)]="selectedMonth"></p-dropdown>
-                <input (input)="setupMonth()" *ngIf="selectedMonth === 0" placeholder="Nhập số tiền đặt cọc" pInputText name="inputBookingFee" [(ngModel)]="bookingFee">
-            </div>
-            <div class="form-group">
-                <label for="inputSection">Người thu</label>
-                <p-dropdown name="inputStaff" autoDisplayFirst="true" [options]="staffs" [(ngModel)]="selectedStaff"></p-dropdown>
-            </div>
-            <div class="form-group">
-                <label for="inputBaloType">Balo</label>
-                <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBalo()" name="inputBaloType" [options]="baloTypes" [(ngModel)]="selectedBaloType"></p-dropdown>
-            </div>
-            <div class="form-group">
-                <label for="inputBookType">Sách</label>
-                <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBook()" name="inputBookType" [options]="bookTypes" [(ngModel)]="selectedBookType"></p-dropdown>
-            </div>
-            <div class="form-group">
-                <p-checkbox disabled (onChange)="setupVoucher()" name="inputVoucher" binary="true" label="Có voucher giảm giá 500,000 đ" [(ngModel)]="isHaveVoucher"></p-checkbox>
-            </div>
-            <div class="form-group">
-                <p-checkbox (onChange)="calculteRelative()" name="inputRelative" binary="true" label="Miễn phí người thân lần đầu" [(ngModel)]="isRelative"></p-checkbox>
-            </div>
-            <div class="form-group">
-                <p-checkbox (onChange)="calculate()" name="inputBrother" binary="true" label="Giảm HP anh/em ruột" [(ngModel)]="isHaveBrother"></p-checkbox>
-            </div>
-            <div class="form-group">
-                <label for="inputPay">Số tiền thanh toán (*)</label>
-                <input [disabled]="selectedMonth === 0" (input)="calculate()" type="text" name="inputPay" [(ngModel)]="realPay" class="form-control" id="inputPay">
-            </div>
-            <button [disabled]="bill.studentName.length === 0" pButton (click)="print()" label="In phiếu"></button>
-            <button pButton (click)="reset()" label="Reset"></button>
-        </form>
-    </div>
-    <div class="col-7" id="print-section">
-        <div class="title" style="text-align: center;">
-            <h4 style="margin-bottom: 0px;">Trung Tâm Anh Ngữ TVM</h4>
-            <p style="margin: 5px;">219/1 Đường số 5, P. Bình Hưng Hòa, Q. Bình Tân, TP. Hồ Chí Minh</p>
-            <div style="display: flex;">
-                <div style="flex: 0 0 50%; text-align: center;">Hotline: (028) 6270 1462</div>
-                <div style="flex: 0 0 50%; text-align: center;">Website: www.tanvietmyenglish.edu.vn</div>
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
+            <h1 class="h2">Hóa đơn</h1>
+            <div>
+                <button [disabled]="bill.studentName.length === 0" label="Xuất phiếu" pButton (click)="showDialogPayMoney()"></button>
+                <button pButton (click)="reset()" label="Làm mới"></button>
             </div>
         </div>
-        <div class="content">
-            <h2 style="text-align:center;">PHIẾU THU HỌC PHÍ</h2>
-            <table style="border: 0; width: 100%; margin-bottom: 5px;">
-                <tr>
-                    <td style="border: 0; padding-left: 0; width: 150px; text-align: left;">
-                        Tên Học viên:
-                    </td>
-                    <td style="border: 0;text-align: left; padding-left: 10px;"> {{ bill.studentName }}</td>
-                </tr>
-                <tr>
-                    <td style="border: 0; padding-left: 0;width: 150px; text-align: left;">Khóa học: </td>
-                    <td style="border: 0;text-align: left; padding-left: 10px;">{{ selectedProgram }}</td>
-                </tr>
-                <tr>
-                    <td style="border: 0; padding-left: 0;width: 150px; text-align: left;">Lớp học: </td>
-                    <td style="border: 0;text-align: left; padding-left: 10px;">{{ selectedSection ? selectedSection.name : '' }}</td>
-                </tr>
-            </table>
-            <p>Nội dung đóng:</p>
-            <table style="width:100%;margin-top: 15px;" border="0">
-                <thead>
-                    <tr>
-                        <th style="text-align:center; width: 50px;">STT</th>
-                        <th style="text-align:center">Dịch vụ</th>
-                        <th style="text-align:center; width: 130px;">Đơn giá</th>
-                        <th style="text-align:center; width: 50px;">SL</th>
-                        <th style="text-align:center; width: 130px;">Thành tiền</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngIf="selectedMonth !== 0">
-                        <td style="text-align:center">1</td>
-                        <td style="text-align:left">Học Phí {{ selectedMonth }} tháng</td>
-                        <td style="text-align:right">{{ studentFee | number }} đ</td>
-                        <td style="text-align:center">1</td>
-                        <td style="text-align:right">{{ totalStudentFee | number }} đ</td>
-                    </tr>
-                    <tr *ngIf="selectedMonth === 0">
-                        <td style="text-align:center">1</td>
-                        <td style="text-align:left">Đặt cọc</td>
-                        <td style="text-align:right">{{ bookingFee | number }} đ</td>
-                        <td style="text-align:center">1</td>
-                        <td style="text-align:right">{{ bookingFee | number }} đ</td>
-                    </tr>
-                    <tr *ngIf="isHaveVoucher">
-                        <td style="text-align:center">1</td>
-                        <td style="text-align:left">Khuyến mãi Voucher</td>
-                        <td style="text-align:right">{{ voucherFee | number }} đ</td>
-                        <td style="text-align:center">1</td>
-                        <td style="text-align:right">{{ voucherFee | number }} đ</td>
-                    </tr>
-                    <ng-container *ngIf="selectedBaloType !== 0">
-                        <tr>
-                            <td style="text-align:center">1</td>
-                            <td style="text-align:left">Balo TVM English</td>
-                            <td style="text-align:right">{{ baloFee | number }} đ</td>
-                            <td style="text-align:center">1</td>
-                            <td style="text-align:right">
-                                {{ totalBaloFee | number }} đ
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-container *ngIf="selectedBookType !== 0">
-                        <tr *ngFor="let item of books">
-                            <td style="text-align:center">1</td>
-                            <td style="text-align:left">{{ item.name }}</td>
-                            <td style="text-align:right">{{ item.price | number}} đ</td>
-                            <td style="text-align:center">1</td>
-                            <td style="text-align:right">{{ item.total | number}} đ</td>
-                        </tr>
-                    </ng-container>
-                    <tr>
-                        <td colspan="4" style="text-align:center">Tổng cộng</td>
-                        <td style="text-align:right">{{ totalFee | number }} đ</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table style="border: 0; width: 100%;">
-                <tr>
-                    <td style="border: 0;width: 70%; text-align: right; padding-right: 10px;">Đã thanh toán: </td>
-                    <td style="border: 0;text-align: right; padding-right: 5px;">{{ realPay | number }} đ</td>
-                </tr>
-                <tr>
-                    <td style="border: 0;width: 70%; text-align: right; padding-right: 10px;">Còn lại:</td>
-                    <td style="border: 0;text-align: right; padding-right: 5px;"> {{ remaining | number }} đ</td>
-                </tr>
-            </table>
-            <p *ngIf="remaining !== 0">Ngày hẹn đóng tiền lần tới: .............................................</p>
-
-            <div style="display: flex; margin-top: 30px;">
-                <div style="flex: 0 0 50%; text-align: center;">
-                    <p style="margin-bottom: 10px;">.</p>
-                    <p>NGƯỜI NỘP</p>
+        <div class="row">
+            <div class="col-12">
+                <form>
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Họ và tên học viên (*)</label>
+                        <div class="col-sm-10">
+                            <input autofocus type="text" name="inputName" [(ngModel)]="bill.studentName" class="form-control" id="inputName">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="inputProgram" class="col-sm-4 col-form-label">Khóa học</label>
+                                <div class="col-sm-8">
+                                    <p-dropdown (onChange)="setupProgram()" name="inputProgram" placeholder="Chọn khóa học" [options]="programs" [(ngModel)]="selectedProgram"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="inputSection" class="col-sm-4 col-form-label">Lớp học</label>
+                                <div class="col-sm-8">
+                                    <p-dropdown [disabled]="isDisabledSection" name="inputSection" placeholder="Chọn lớp" [options]="sections" [(ngModel)]="selectedSection"
+                                        [showClear]="true"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="inputSection" class="col-sm-4 col-form-label">Đóng theo tháng</label>
+                                <div class="col-sm-8">
+                                    <p-dropdown [disabled]="isRelative" (onChange)="setupMonth()" name="inputMonth" autoDisplayFirst="true" [options]="months"
+                                        [(ngModel)]="selectedMonth"></p-dropdown>
+                                    <input (input)="setupMonth()" *ngIf="selectedMonth === 0" placeholder="Nhập số tiền đặt cọc" pInputText name="inputBookingFee"
+                                        [(ngModel)]="bookingFee">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="inputStaff" class="col-sm-4 col-form-label">Người thu</label>
+                                <div class="col-sm-8">
+                                    <p-dropdown name="inputStaff" autoDisplayFirst="true" [options]="staffs" [(ngModel)]="selectedStaff"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="inputBaloType" class="col-sm-4 col-form-label">Balo</label>
+                                <div class="col-sm-8">
+                                    <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBalo()" name="inputBaloType" [options]="baloTypes"
+                                        [(ngModel)]="selectedBaloType"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="inputBookType" class="col-sm-4 col-form-label">Sách</label>
+                                <div class="col-sm-8">
+                                    <p-dropdown [disabled]="isRelative || selectedMonth === 0" (onChange)="setupBook()" name="inputBookType" [options]="bookTypes"
+                                        [(ngModel)]="selectedBookType" autoDisplayFirst></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p-checkbox disabled (onChange)="setupVoucher()" name="inputVoucher" binary="true" label="Có voucher giảm giá 500,000 đ"
+                            [(ngModel)]="isHaveVoucher"></p-checkbox>
+                    </div>
+                    <div class="form-group">
+                        <p-checkbox (onChange)="calculteRelative()" name="inputRelative" binary="true" label="Miễn phí người thân lần đầu" [(ngModel)]="isRelative"></p-checkbox>
+                    </div>
+                    <div class="form-group">
+                        <p-checkbox (onChange)="calculate()" name="inputBrother" binary="true" label="Giảm HP anh/em ruột" [(ngModel)]="isHaveBrother"></p-checkbox>
+                    </div>
+                </form>
+            </div>
+            <div class="col-7" id="printSection" #printSection style="display: none;">
+                <div class="title">
+                    <strong style="font-size: 16px; margin-bottom: 5px;">Trung Tâm Anh Ngữ TVM English</strong>
+                    <div style="margin-bottom: 2px;">219/1 Đường số 5, P. Bình Hưng Hòa, Q. Bình Tân, TP. Hồ Chí Minh</div>
+                    <div style="margin-bottom: 2px;">Website: www.tanvietmyenglish.edu.vn</div>
+                    <div>Hotline: (028) 6270 1462</div>
                 </div>
-                <div style="flex: 0 0 50%; text-align: center;">
-                    <p style="text-align: center;  margin-bottom: 10px;">Ngày {{ currentDate | date:'dd' }} tháng {{ currentDate | date:'MM' }} năm {{ currentDate | date:'yyyy' }} </p>
-                    <P style="margin-bottom: 60px;">NGƯỜI THU</P>
-                    <div>{{ selectedStaff.name }}</div>
+                <div class="content">
+                    <h2 style="text-align:center;">BIÊN LAI THU HỌC PHÍ</h2>
+                    <table style="border: 0; width: 100%; margin-bottom: 5px; font-size: 12px;">
+                        <tr>
+                            <td style="border: 0; padding-left: 0; width: 150px;">Tên Học viên:</td>
+                            <td style="border: 0; padding-left: 10px;"> {{ bill.studentName }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 0; padding-left: 0;width: 150px;">Khóa học: </td>
+                            <td style="border: 0; padding-left: 10px;" *ngIf="selectedProgram">{{ selectedProgram.name }}</td>
+                        </tr>
+                        <tr *ngIf="selectedSection">
+                            <td style="border: 0; padding-left: 0;width: 150px;">Lớp học: </td>
+                            <td style="border: 0; padding-left: 10px;" *ngIf="selectedSection">{{ selectedSection.code }}</td>
+                        </tr>
+                    </table>
+                    <table style="width:100%;margin-top: 15px; font-size: 12px;" border="0">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center; width: 30px;">STT</th>
+                                <th style="text-align:left; padding-left: 5px;">Khoản thu</th>
+                                <th style="text-align:center; width: 70px;">Mức phí</th>
+                                <th style="text-align:center; width: 40px;">SL</th>
+                                <th style="text-align:center; width: 70px;">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="selectedMonth !== 0">
+                                <td style="text-align:center">1</td>
+                                <td style="text-align:left">Học Phí {{ selectedMonth }} tháng</td>
+                                <td style="text-align:right">{{ studentFee | number }} đ</td>
+                                <td style="text-align:center">1</td>
+                                <td style="text-align:right">{{ totalStudentFee | number }} đ</td>
+                            </tr>
+                            <tr *ngIf="selectedMonth === 0">
+                                <td style="text-align:center">1</td>
+                                <td style="text-align:left">Đặt cọc</td>
+                                <td style="text-align:right">{{ bookingFee | number }} đ</td>
+                                <td style="text-align:center">1</td>
+                                <td style="text-align:right">{{ bookingFee | number }} đ</td>
+                            </tr>
+                            <tr *ngIf="isHaveVoucher">
+                                <td style="text-align:center">1</td>
+                                <td style="text-align:left">Khuyến mãi Voucher</td>
+                                <td style="text-align:right">{{ voucherFee | number }} đ</td>
+                                <td style="text-align:center">1</td>
+                                <td style="text-align:right">{{ voucherFee | number }} đ</td>
+                            </tr>
+                            <ng-container *ngIf="selectedBaloType !== 0">
+                                <tr>
+                                    <td style="text-align:center">1</td>
+                                    <td style="text-align:left">Balo TVM English</td>
+                                    <td style="text-align:right">{{ baloFee | number }} đ</td>
+                                    <td style="text-align:center">1</td>
+                                    <td style="text-align:right">
+                                        {{ totalBaloFee | number }} đ
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngIf="selectedBookType !== 0">
+                                <tr *ngFor="let item of books">
+                                    <td style="text-align:center">1</td>
+                                    <td style="text-align:left">{{ item.name }}</td>
+                                    <td style="text-align:right">{{ item.price | number}} đ</td>
+                                    <td style="text-align:center">1</td>
+                                    <td style="text-align:right">{{ item.total | number}} đ</td>
+                                </tr>
+                            </ng-container>
+                            <tr>
+                                <td colspan="4" style="text-align:center">Tổng cộng</td>
+                                <td style="text-align:right">{{ totalFee | number }} đ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table style="border: 0; width: 100%;  font-size: 12px;">
+                        <tr>
+                            <td style="border: 0;width: 70%; text-align: right; padding-right: 10px;">Đã thanh toán: </td>
+                            <td style="border: 0;text-align: right; padding-right: 5px;">{{ realPay | number }} đ</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 0;width: 70%; text-align: right; padding-right: 10px;">Còn lại:</td>
+                            <td style="border: 0;text-align: right; padding-right: 5px;"> {{ remaining | number }} đ</td>
+                        </tr>
+                    </table>
+                    <p *ngIf="remaining !== 0">Ngày hẹn đóng tiền lần tới: .............................................</p>
+
+                    <div style="display: flex; margin-top: 30px;">
+                        <div style="flex: 0 0 50%; text-align: center;">
+                            <p style="margin-bottom: 10px;">.</p>
+                            <div>NGƯỜI NỘP TIỀN</div>
+                            <i>(Ký, ghi rõ họ tên)</i>
+                        </div>
+                        <div style="flex: 0 0 50%; text-align: center;">
+                            <p style="text-align: center;  margin-bottom: 10px;">Ngày {{ currentDate | date:'dd' }} tháng
+                                {{ currentDate | date:'MM' }} năm {{ currentDate | date:'yyyy' }} </p>
+                            <div style="margin-bottom: 70px;">
+                                <div>NGƯỜI THU TIỀN</div>
+                                <i>(Ký và đóng dấu)</i>
+                            </div>
+                            <div>{{ selectedStaff.name }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<p-dialog header="Đóng tiền" [(visible)]="isDialogPayMoneyVisible" [modal]="true" [responsive]="true" [width]="1000" [minWidth]="200"
+    [minY]="70" [maximizable]="true" [baseZIndex]="10000" (onShow)="onShowDialog()">
+    <div class="container-fluid">
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Tổng tiền</label>
+                <div class="col-sm-8">
+                    {{ totalFee | number }} đ
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputName" class="col-sm-4 col-form-label">Số tiền phụ huynh đóng</label>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <input #inputMoney (focus)="onFocusPayMoney($event)" (keyup)="onChangePayMoney()" type="number" name="inputMoney" [(ngModel)]="realPay"
+                                class="form-control" id="inputMoney">
+                        </div>
+                        <button class="col-sm-4" pButton label="Đóng đủ" (click)="payFullMoney()"></button>
+                    </div>
+                    <i>Bằng chữ: {{ realPayByWords }} đồng</i>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Còn lại</label>
+                <div class="col-sm-8">
+                    {{ remaining | number }} đ
+                </div>
+            </div>
+        </form>
+    </div>
+    <p-footer>
+        <button type="button" [disabled]="realPay == 0" pButton icon="pi pi-check" (click)="checkout(true)" icon="fa fa-print" label="Đồng ý và in"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="checkout(false)" label="Hủy bỏ" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>

@@ -13,13 +13,13 @@ export class AppComponent {
 	ngOnInit() {
 		this.items = [
 			{
-				label: 'Khách hàng', icon: 'pi pi-fw pi-check', routerLink: ['/customers'], routerLinkActiveOptions: { exact: true }
+				label: 'Khách hàng', icon: 'fa fa-users', routerLink: ['/customers'], routerLinkActiveOptions: { exact: true }
 			},
 			{
-				label: 'Khóa học', icon: 'pi pi-fw pi-check', routerLink: ['/courses'], routerLinkActiveOptions: { exact: true }
+				label: 'Hóa đơn', icon: 'fa fa-bookmark', routerLink: ['/bill'], routerLinkActiveOptions: { exact: true }
 			},
 			{
-				label: 'Hóa đơn', icon: 'pi pi-fw pi-check', routerLink: ['/bill'], routerLinkActiveOptions: { exact: true }
+				label: 'Cài đặt', icon: 'fa fa-cog', routerLink: ['/setting'], routerLinkActiveOptions: { exact: true }
 			}
 		];
 	}

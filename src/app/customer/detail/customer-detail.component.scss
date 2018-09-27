@@ -7,14 +7,12 @@ body .ui-tabview .ui-tabview-panels {
 }
 
 .comment {
-    border: 1px solid #dadada;
+    border: 1px solid rgba(0,0,0,0.1);
     padding: 10px;
-    border-radius: 3px;
     margin-bottom: 5px;
 }
 
 .comment-action {
-    border-top: 1px solid #dadada;
     display: flex;
     padding: 10px;
     button {

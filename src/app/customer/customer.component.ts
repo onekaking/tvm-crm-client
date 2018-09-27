@@ -48,7 +48,7 @@ export class CustomerComponent {
 			this.customerService.postCustomer(this.newCustomer).subscribe((data: Customer) => {
 				// this.isDialogAddCustomerVisible = false;
 				// this.loadCustomers();
-				this.router.navigate(['customer', data.id]);
+				this.router.navigate(['../customer', data.id]);
 			});
 		} else {
 			this.isDialogAddCustomerVisible = false;
@@ -75,7 +75,7 @@ export class CustomerComponent {
 	}
 
 	selectSearchCustomer(obj) {
-		this.router.navigate(['customer', obj.id ]);
+		this.router.navigate(['../customer', obj.id ]);
 	}
 
 }

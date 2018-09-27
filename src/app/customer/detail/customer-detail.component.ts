@@ -29,8 +29,7 @@ export class CustomerDetailComponent {
 		);
 
 		this.customerLoad$.subscribe((data: Customer) => {
-			console.log(data);
-			// var trueDate = new Date(data.birth)
+			data.notes = data.notes.sort(item => item.id);
 			this.customer = data;
 			this.isLoading = false;
 		});
@@ -43,7 +42,7 @@ export class CustomerDetailComponent {
 		note.owner = this.customer.id;
 		this.customerService.postNote(note).subscribe((data: any) => {
 			this.newNote = '';
-			this.customer.notes.push(data);
+			this.customer.notes.unshift(data);
 			this.isPostingNote = false;
 		});
 	}

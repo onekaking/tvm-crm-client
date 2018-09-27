@@ -22,7 +22,8 @@ import {
 	ScrollPanelModule,
 	InputTextModule,
 	DropdownModule,
-	CheckboxModule
+	CheckboxModule,
+	TabMenuModule
 } from 'primeng/primeng';
 
 import { TableModule } from 'primeng/table';
@@ -32,9 +33,12 @@ import { CustomerComponent } from './customer/customer.component';
 import { StudentsComponent } from './students/students.component';
 import { CustomerService } from './customer/customer.service';
 import { CustomerDetailComponent } from './customer/detail/customer-detail.component';
-import { CourseComponent } from './course/course.component';
 import { BillComponent } from './bill/bill.component';
-import { CourseService } from './course/course.service';
+import { SettingComponent } from './setting/setting.component';
+import { SettingCourseComponent } from './setting/course/course.component';
+import { CourseService } from './setting/course/course.service';
+import { ClassCourseComponent } from './setting/class/class-course.component';
+import { ClassCourseService } from './setting/class/class-course.service';
 
 @NgModule({
 	declarations: [
@@ -42,8 +46,10 @@ import { CourseService } from './course/course.service';
 		CustomerComponent,
 		StudentsComponent,
 		CustomerDetailComponent,
-		CourseComponent,
-		BillComponent
+		BillComponent,
+		SettingComponent,
+		SettingCourseComponent,
+		ClassCourseComponent
 	],
 	imports: [
 		BrowserModule,
@@ -64,12 +70,13 @@ import { CourseService } from './course/course.service';
 		InputTextModule,
 		DropdownModule,
 		CheckboxModule,
+		TabMenuModule,
 		RouterModule.forRoot(
 			appRoutes,
 			{ enableTracing: false, useHash: true } // <-- debugging purposes only
 		)
 	],
-	providers: [CustomerService, CourseService],
+	providers: [CustomerService, CourseService, ClassCourseService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

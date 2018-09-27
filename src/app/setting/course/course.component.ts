@@ -3,12 +3,12 @@ import { Course } from './course.model';
 import { CourseService } from './course.service';
 
 @Component({
-	selector: 'app-course',
+	selector: 'app-setting-course',
 	templateUrl: './course.component.html',
 	styleUrls: ['./course.component.scss'],
 	encapsulation: ViewEncapsulation.None
 })
-export class CourseComponent {
+export class SettingCourseComponent {
 	courses: Course[] = [];
 	isDialogAddCourseVisible: boolean = false;
 	newCourse: Course = new Course();

@@ -1,0 +1,57 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
+    <h1 class="h2">Lớp học</h1>
+    <div>
+        <button pButton icon="pi pi-plus" (click)="showDialogAddClassCourse()"></button>
+    </div>
+</div>
+<p-table [loading]="isLoading" [paginator]="true" [rows]="10" [value]="classCourses">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>#</th>
+            <th>Code</th>
+            <th>Khóa học</th>
+            <th>Thời gian</th>
+            <th>Phòng</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-classCourse let-i="rowIndex">
+        <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ classCourse.code }}</td>
+            <td>{{ classCourse.course.name }}</td>
+            <td>{{ classCourse.time }}</td>
+            <td>{{ classCourse.room }}</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="Lớp mới" [(visible)]="isDialogAddClassCourseVisible" [modal]="true" [responsive]="true" [width]="1000"
+    [minWidth]="200" [minY]="70" [maximizable]="true">
+    <form>
+        <div class="container-fluid">
+            <div class="form-group row">
+                <label for="inputCourse" class="col-sm-4 col-form-label">Chọn khóa học</label>
+                <div class="col-sm-8">
+                    <p-dropdown name="inputSection" appendTo="body" placeholder="Chọn lớp" [options]="courses" [(ngModel)]="selectedCourse"></p-dropdown>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="inputCode" class="col-sm-4 col-form-label">Code</label>
+                <div class="col-sm-8">
+                    <input type="text" name="inputCode" [(ngModel)]="newClassCourse.code" class="form-control" id="inputCode">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputTime" class="col-sm-4 col-form-label">Thời gian</label>
+                <div class="col-sm-8">
+                    <input type="text" name="inputTime" [(ngModel)]="newClassCourse.time" class="form-control" id="inputTime">
+                </div>
+            </div>
+        </div>
+    </form>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="createNewClassCourse(true)" label="Tạo mới"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="createNewClassCourse(false)" label="Hủy bỏ" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>

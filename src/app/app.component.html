@@ -1,4 +1,20 @@
-<p-megaMenu [model]="items"></p-megaMenu>
-<div class="fluid-container p-3 ">
-    <router-outlet></router-outlet>
+<!-- <p-megaMenu [model]="items"></p-megaMenu> -->
+<div class="container-fluid" style="overflow: hidden; height: 100%;">
+    <div class="row"  style="height: 100%;">
+        <nav class="col-md-2 d-none d-md-block sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item" *ngFor="let item of items">
+                        <a class="nav-link" routerLinkActive="active" routerLink="{{ item.routerLink }}">
+                            <i class="{{ item.icon }}"></i>
+                            {{ item.label }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main role="main" style="overflow: auto;" class="col-md-9 bg-light ml-sm-auto col-lg-10 px-3 pt-3 pb-3">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
 </div>

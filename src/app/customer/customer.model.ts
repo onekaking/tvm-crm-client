@@ -1,9 +1,11 @@
 export class Customer {
     id: string;
-    name: string = '';
-    phone: string = '';
     code: string = '';
-    notes: any[] = [];
+    name: string = '';
+    birthday: string = '';
+    address: string = '';
+    phone: string = '';
     description: string = '';
-    birth: Date = new Date();
+    notes: any[] = [];
+    parentName: string = '';
 }
