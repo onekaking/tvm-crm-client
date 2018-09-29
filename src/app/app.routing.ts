@@ -8,7 +8,7 @@ import { SettingCourseComponent } from "./setting/course/course.component";
 
 export const appRoutes: Routes = [
 	{ path: 'customers', component: CustomerComponent },
-	{ path: 'customer/:id', component: CustomerDetailComponent },
+	{ path: 'customers/:id', component: CustomerDetailComponent },
 	{ path: 'bill', component: BillComponent },
 	{
 		path: 'setting', component: SettingComponent

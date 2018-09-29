@@ -76,56 +76,6 @@ export class BillComponent {
 
         this.loadCourses();
 
-        // this.rawSections = [{
-        //     label: 'Super Kid 1 / SUP1-2T1-1',
-        //     value: {
-        //         name: 'SUP1-2T1-1',
-        //         program: 'Super Kids 1'
-        //     }
-        // }, {
-        //     label: 'Pre Starters / PRE-3T1-2',
-        //     value: {
-        //         name: 'PRE-3T1-2',
-        //         program: 'Pre Starters'
-        //     }
-        // }, {
-        //     label: 'Pre Starters / PRE-7S1-5',
-        //     value: {
-        //         name: 'PRE-7S1-5',
-        //         program: 'Pre Starters'
-        //     }
-        // }, {
-        //     label: 'Pre Starters / PRE-3T1-8',
-        //     value: {
-        //         name: 'PRE-3T1-8',
-        //         program: 'Pre Starters'
-        //     }
-        // }, {
-        //     label: 'Starters 2 / STA2-2T2-3',
-        //     value: {
-        //         name: 'STA2-2T2-3',
-        //         program: 'Starters 2'
-        //     }
-        // }, {
-        //     label: 'Movers 1 / MOV1-7S1-6',
-        //     value: {
-        //         name: 'MOV1-7S1-6',
-        //         program: 'Movers 1'
-        //     }
-        // }, {
-        //     label: 'Movers 1 / MOV1-7C1-9',
-        //     value: {
-        //         name: 'MOV1-7C1-9',
-        //         program: 'Movers 1'
-        //     }
-        // }, {
-        //     label: 'Pre Starters / PRE-2T1-10',
-        //     value: {
-        //         name: 'PRE-2T1-10',
-        //         program: 'Pre Starters'
-        //     }
-        // }];
-
         this.months = [{
             label: '1 tháng',
             value: 1
@@ -181,9 +131,6 @@ export class BillComponent {
             label: 'Được tặng',
             value: 2
         }];
-        // this.selectedBookType = this.bookTypes[0].value;
-
-        // this.setupProgram();
         this.setupMonth();
     }
 
@@ -326,15 +273,7 @@ export class BillComponent {
         this.setupBalo();
         this.setupBook();
 
-        // this.sections = this.rawSections.filter(item => item.value.program === this.selectedProgram);
-        // this.selectedSection = null;
-        // if (this.sections.length === 0) {
-        //     this.isDisabledSection = true;
-        // } else {
-        //     this.isDisabledSection = false;
-        // }
-
-        if (this.selectedProgram == null || this.selectedProgram.classCourses.length === 0) {
+        if (this.selectedProgram == undefined || this.selectedProgram.classCourses.length === 0) {
             this.sections = [];
             this.selectedSection = null;
             this.isDisabledSection = true;
@@ -354,7 +293,14 @@ export class BillComponent {
     calculate() {
         let temp = 1200000;
         let decreasePercent = 1;
-        if (this.selectedProgram === 'Super Kids 1') {
+        if (this.selectedProgram == undefined) {
+            this.totalFee = 0;
+            this.remaining = 0;
+            return;
+        }
+        if (this.selectedProgram.name === 'Super Kids 1'
+            || this.selectedProgram.name === 'Super Kids 2' ||
+            this.selectedProgram.name === 'Super Kids 3') {
             temp = 1300000;
         }
         if (this.selectedMonth === 3) {
@@ -364,6 +310,7 @@ export class BillComponent {
         } else if (this.selectedMonth === 12) {
             decreasePercent -= 0.3;
         }
+        
         if (this.isHaveBrother) {
             decreasePercent -= 0.05;
         }
@@ -382,10 +329,6 @@ export class BillComponent {
         this.totalFee = (this.totalStudentFee + this.totalBaloFee + this.totalBookFee + this.voucherFee
             + parseFloat(this.bookingFee.toString()));
         this.remaining = this.totalFee - this.realPay;
-    }
-
-    getIndex() {
-        return ++this.index;
     }
 
     reset() {
@@ -571,7 +514,6 @@ export class BillComponent {
                     value: item
                 });
             });
-            // this.selectedProgram = this.programs[0].value;
         });
     }
 }

@@ -1,13 +1,13 @@
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-2">
     <h1 class="h2">Khóa học</h1>
     <div>
         <button pButton icon="pi pi-plus" (click)="showDialogAddCourse()"></button>
     </div>
 </div>
-<p-table [loading]="isLoading" [paginator]="true" [rows]="10" [value]="courses">
+<p-table [loading]="isLoading" [value]="courses">
     <ng-template pTemplate="header">
         <tr>
-            <th>#</th>
+            <th style="width:30px;">#</th>
             <th>Tên khóa học</th>
             <th>Mô tả</th>
             <th>Thời lượng</th>

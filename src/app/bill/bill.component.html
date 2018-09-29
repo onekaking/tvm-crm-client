@@ -1,12 +1,12 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-2">
+    <h1 class="h2">Hóa đơn</h1>
+    <div>
+        <button [disabled]="bill.studentName.length === 0" label="Xuất phiếu" pButton (click)="showDialogPayMoney()"></button>
+        <button pButton (click)="reset()" label="Làm mới"></button>
+    </div>
+</div>
 <div class="card">
     <div class="card-body">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom">
-            <h1 class="h2">Hóa đơn</h1>
-            <div>
-                <button [disabled]="bill.studentName.length === 0" label="Xuất phiếu" pButton (click)="showDialogPayMoney()"></button>
-                <button pButton (click)="reset()" label="Làm mới"></button>
-            </div>
-        </div>
         <div class="row">
             <div class="col-12">
                 <form>

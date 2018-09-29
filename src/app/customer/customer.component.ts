@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
 import { TreeNode, LazyLoadEvent } from 'primeng/api';
@@ -7,21 +7,19 @@ import { Router } from '@angular/router';
 @Component({
 	selector: 'app-customers',
 	templateUrl: './customer.component.html',
-	styleUrls: ['./customer.component.scss']
+	styleUrls: ['./customer.component.scss'],
+	encapsulation: ViewEncapsulation.None
 })
 export class CustomerComponent {
 	customers: Customer[] = [];
-	isDialogAddCustomerVisible: boolean = false;
 	newCustomer: Customer = new Customer();
 	searchCustomerText: string = '';
 	resultCustomers: any[] = [];
-	isDialogPayMoneyVisible: boolean = false;
 	loading: boolean = false;
 	datasource: Customer[] = [];
+	totalRecords: number = 0;
 
-	constructor(private customerService: CustomerService, private router: Router) {
-
-	}
+	constructor(private customerService: CustomerService, private router: Router) {}
 
 	ngOnInit() {
 		this.loadCustomers();
@@ -38,44 +36,34 @@ export class CustomerComponent {
 		});
 	}
 
-	showDialogAddCustomer() {
-		this.newCustomer = new Customer();
-		this.isDialogAddCustomerVisible = true;
-	}
-
 	createNewCustomer(isCreate) {
 		if (isCreate) {
 			this.customerService.postCustomer(this.newCustomer).subscribe((data: Customer) => {
-				// this.isDialogAddCustomerVisible = false;
-				// this.loadCustomers();
-				this.router.navigate(['../customer', data.id]);
+				this.customers.unshift(data);
+				this.newCustomer = new Customer();
 			});
 		} else {
-			this.isDialogAddCustomerVisible = false;
+			this.newCustomer = new Customer();
 		}
 	}
 
 	searchCustomer(event) {
 		this.customerService.findCustomers(this.searchCustomerText).subscribe((data: Customer[]) => {
-			this.resultCustomers = data;
+			this.resultCustomers = [];
+			data.map(item => {
+				console.log(item);
+				this.resultCustomers.
+				unshift(`<span>
+					${item.name.replace(this.searchCustomerText, '<strong>'+ this.searchCustomerText +'</strong>')}
+					</span>`);
+			})
+			// this.resultCustomers = data;
 			console.log(data);
 		});
 	}
 
-	showDialogPayMoney() {
-		this.isDialogPayMoneyVisible = true;
-	}
-
-	payMoney(isPay) {
-		if (isPay) {
-
-		} else {
-			this.isDialogPayMoneyVisible = false;
-		}
-	}
-
 	selectSearchCustomer(obj) {
-		this.router.navigate(['../customer', obj.id ]);
+		this.router.navigate(['../customers', obj.id ]);
 	}
 
 }
