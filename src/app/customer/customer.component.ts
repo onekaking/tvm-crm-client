@@ -49,15 +49,16 @@ export class CustomerComponent {
 
 	searchCustomer(event) {
 		this.customerService.findCustomers(this.searchCustomerText).subscribe((data: Customer[]) => {
-			this.resultCustomers = [];
+			// this.resultCustomers = [];
+			let result = [];
 			data.map(item => {
 				console.log(item);
-				this.resultCustomers.
+				result.
 				unshift(`<span>
 					${item.name.replace(this.searchCustomerText, '<strong>'+ this.searchCustomerText +'</strong>')}
 					</span>`);
 			})
-			// this.resultCustomers = data;
+			this.resultCustomers = result;
 			console.log(data);
 		});
 	}
